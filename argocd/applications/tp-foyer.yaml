@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-tpfoyer
+  namespace: tp-foyer
+spec:
+  destination:
+    name: ''
+    namespace: default
+    server: https://kubernetes.default.svc  # Kubernetes API server (in-cluster)
+  source:
+    repoURL: "https://github.com/Melek-ElHajri/tp-foyer"  # URL of your Git repository
+    targetRevision: HEAD  # Branch or version to sync
+    path: tp-foyer  # The folder where your Kubernetes YAML files are located in the Git repo
+  project: default
+  syncPolicy:
+    automated: {}  # Enable auto-sync for changes
+    syncOptions:
+      - CreateNamespace=true  # Auto-create namespace if not already created
