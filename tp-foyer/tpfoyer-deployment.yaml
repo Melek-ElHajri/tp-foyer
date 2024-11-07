@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-tpfoyer
+spec:
+  selector:
+    matchLabels:
+      app: app-tpfoyer
+  template:
+    metadata:
+      labels:
+        app: app-tpfoyer
+    spec:
+      containers:
+        - name: app-tpfoyer
+          image: m2l2k/tp-foyer:5.0.0
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysqldb:3306/tpfoyer_db?createDatabaseIfNotExist=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-tpfoyer
+spec:
+  selector:
+    app: app-tpfoyer
+  ports:
+    - port: 8089
+      targetPort: 8089
